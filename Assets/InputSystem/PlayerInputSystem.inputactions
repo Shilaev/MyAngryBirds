@@ -6,10 +6,10 @@
             "id": "adaa64ab-89f0-4ec2-8b4d-4d29ee9d72cf",
             "actions": [
                 {
-                    "name": "Move",
-                    "type": "PassThrough",
+                    "name": "SelectAndMove",
+                    "type": "Value",
                     "id": "4ea524db-2439-4b6c-8d1d-39b24dbdf87b",
-                    "expectedControlType": "",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 }
@@ -22,7 +22,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "SelectAndMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d1c6930c-4135-4883-b8bd-486c12ddd75c",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectAndMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1a0ea5d2-3710-43b6-ade1-a41a54cf3834",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectAndMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

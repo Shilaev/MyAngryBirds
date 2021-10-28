@@ -1,29 +1,33 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.EventSystems;
 
 public class DrugNShoot : MonoBehaviour
 {
-    private Rigidbody2D _rigidbody2D;
+    private RaycastHit2D _hit;
+    private Vector2 _newPos;
+    private PlayerInputSystem _playerInputSystem;
 
     private void Start()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _playerInputSystem = new PlayerInputSystem();
+        _playerInputSystem.Enable();
+
+        _playerInputSystem.Player.SelectAndMove.performed += context =>
+        {
+            _hit = Physics2D.Raycast(_newPos, Vector2.zero);
+        };
+
+        _playerInputSystem.Player.SelectAndMove.canceled += context => { _hit = new RaycastHit2D(); };
+    }
+
+    private void HandleDrag()
+    {
+        _newPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        if (_hit) _hit.transform.position = _newPos;
     }
 
     private void Update()
     {
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint( Mouse.current.position.ReadValue());
-
-        if (Mouse.current.leftButton.isPressed)
-        {
-            _rigidbody2D.isKinematic = true;
-            _rigidbody2D.position = mousePosition;
-        }
-        else if (Mouse.current.leftButton.isPressed == false)
-        {
-            _rigidbody2D.isKinematic = false;
-        }
+        HandleDrag();
     }
-
 }

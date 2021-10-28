@@ -19,10 +19,10 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
             ""id"": ""adaa64ab-89f0-4ec2-8b4d-4d29ee9d72cf"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
-                    ""type"": ""PassThrough"",
+                    ""name"": ""SelectAndMove"",
+                    ""type"": ""Value"",
                     ""id"": ""4ea524db-2439-4b6c-8d1d-39b24dbdf87b"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -35,7 +35,29 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""SelectAndMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d1c6930c-4135-4883-b8bd-486c12ddd75c"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectAndMove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1a0ea5d2-3710-43b6-ade1-a41a54cf3834"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectAndMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -46,7 +68,7 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_SelectAndMove = m_Player.FindAction("SelectAndMove", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -96,12 +118,12 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_SelectAndMove;
     public struct PlayerActions
     {
         private @PlayerInputSystem m_Wrapper;
         public PlayerActions(@PlayerInputSystem wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @SelectAndMove => m_Wrapper.m_Player_SelectAndMove;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -111,22 +133,22 @@ public class @PlayerInputSystem : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @SelectAndMove.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectAndMove;
+                @SelectAndMove.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectAndMove;
+                @SelectAndMove.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectAndMove;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
+                @SelectAndMove.started += instance.OnSelectAndMove;
+                @SelectAndMove.performed += instance.OnSelectAndMove;
+                @SelectAndMove.canceled += instance.OnSelectAndMove;
             }
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
     public interface IPlayerActions
     {
-        void OnMove(InputAction.CallbackContext context);
+        void OnSelectAndMove(InputAction.CallbackContext context);
     }
 }
